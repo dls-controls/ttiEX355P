@@ -1,0 +1,101 @@
+####################################################
+#
+# Protocol file for the TTi EX355P power supply
+#
+####################################################
+#
+# Ian Gillingham, May 2013
+#
+
+##################################################
+# General Settings
+##################################################
+
+Terminator = "\n";
+InTerminator = "\r\n";
+ReplyTimeout = 2000;
+
+###################################################
+# Protocols
+###################################################
+
+reset
+    {
+    out "*RST";
+    }
+
+# Get instrument identification
+getIDN
+    {
+    out "*IDN?";
+    in "%s";
+    }
+
+# Set the output voltage
+setVoltage 
+    {
+    out "V %f";
+    }
+
+# Get the output voltage
+getSetpointVoltage 
+    {
+    out "V?";
+    in "V%f";
+    }
+
+# Get the output voltage
+getActualVoltage 
+    {
+    out "VO?";
+    in "V%f";
+    }
+
+# Set the output current
+setCurrent 
+    {
+    out "I %f";
+    }
+
+# Get the output current
+getSetpointCurrent 
+    {
+    out "I?";
+    in "I%f";
+    }
+
+# Get the actual output current
+getActualCurrent 
+    {
+    out "IO?";
+    in "I%f";
+    }
+
+# Set the output state
+setOutput 
+    {
+    out "%{OFF|ON}";
+    }
+
+# Get the output state
+getOutput 
+    {
+    out "OUT?";
+    in "OUT %{OFF|ON}";
+    }
+
+# Get the output mode status
+# this reflects whether the supply is voltage or current limiting (automatically switched)
+getMode
+    {
+    out "M?";
+    in "M C%{V|C}";
+    }
+
+# Get the error register
+getError
+    {
+    out "ERR?";
+    in "ERR %d";
+    }
+
