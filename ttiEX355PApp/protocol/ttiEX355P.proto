@@ -89,7 +89,7 @@ getOutput
 getMode
     {
     out "M?";
-    in "M C%{V|C}";
+    in "M C%{V|I}";
     }
 
 # Get the error register
