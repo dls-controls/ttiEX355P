@@ -28,7 +28,7 @@ reset
 getIDN
     {
     out "*IDN?";
-    in "%s";
+    in "%*s %s";
     }
 
 # Set the output voltage
