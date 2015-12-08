@@ -4,6 +4,8 @@
 # Macros:
 #   P   - The prefix name
 #   PORT- The asyn port
+#   MAXV- Maximum voltage
+#   MAXI- Maximum current
 
 # The desired output voltage.
 #% autosave 1 VAL
@@ -12,12 +14,16 @@ record(ao, "$(P):VOLTAGE")
     {
     field(DESC, "Output voltage")
     field(EGU, "V")
-    field(HOPR, "35.0")
-    field(LOPR, "0.0")    
-    field(PREC, "2")
     field(SCAN, "Passive")
+    field(DRVH, "$(MAXV=0)")
+    field(DRVL, "0")
+    field(EGUF, "$(MAXV=0)")
+    field(EGUL, "0")
+    field(HOPR, "$(MAXV=0)")
+    field(LOPR, "0")
+    field(PREC, "2")
     field(DTYP, "stream")
-    field(OUT,  "@ttiEX355P.proto setVoltage $(PORT)")
+    field(OUT, "@ttiEX355P.proto setVoltage $(PORT)")
     field(PINI, "YES")
     }
 
@@ -28,12 +34,16 @@ record(ao, "$(P):CURRENT")
     {
     field(DESC, "Output current")
     field(EGU, "A")
-    field(HOPR, "5.0")
-    field(LOPR, "0.01")    
-    field(PREC, "2")
     field(SCAN, "Passive")
+    field(DRVH, "$(MAXI=0)")
+    field(DRVL, "0")
+    field(EGUF, "$(MAXI=0)")
+    field(EGUL, "0")
+    field(HOPR, "$(MAXI=0)")
+    field(LOPR, "0")
+    field(PREC, "2")
     field(DTYP, "stream")
-    field(OUT,  "@ttiEX355P.proto setCurrent $(PORT)")
+    field(OUT, "@ttiEX355P.proto setCurrent $(PORT)")
     field(PINI, "YES")
     }
 
@@ -43,11 +53,11 @@ record(ai, "$(P):VOLTAGE_SP")
     {
     field(SCAN, "1 second")
     field(DTYP, "stream")
-    field(HOPR, "35.0")
-    field(LOPR, "0.0")    
+    field(EGU, "V")
     field(PREC, "2")
-    field(EGU,  "V")
-    field(INP,  "@ttiEX355P.proto getSetpointVoltage $(PORT)")
+    field(HOPR, "$(MAXV=0)")
+    field(LOPR, "0")
+    field(INP, "@ttiEX355P.proto getSetpointVoltage $(PORT)")
     field(PINI, "YES")
     }
 
@@ -57,11 +67,11 @@ record(ai, "$(P):VOLTAGE_RBV")
     {
     field(SCAN, "1 second")
     field(DTYP, "stream")
-    field(HOPR, "35.0")
-    field(LOPR, "0.0")    
+    field(EGU, "V")
     field(PREC, "2")
-    field(EGU,  "V")
-    field(INP,  "@ttiEX355P.proto getActualVoltage $(PORT)")
+    field(HOPR, "$(MAXV=0)")
+    field(LOPR, "0")
+    field(INP, "@ttiEX355P.proto getActualVoltage $(PORT)")
     field(PINI, "YES")
     }
 
@@ -72,10 +82,10 @@ record(ai, "$(P):CURRENT_SP")
     field(SCAN, "1 second")
     field(DTYP, "stream")
     field(EGU, "A")
-    field(HOPR, "5.0")
-    field(LOPR, "0.01")    
     field(PREC, "2")
-    field(INP,  "@ttiEX355P.proto getSetpointCurrent $(PORT)")
+    field(HOPR, "$(MAXI=0)")
+    field(LOPR, "0")
+    field(INP, "@ttiEX355P.proto getSetpointCurrent $(PORT)")
     field(PINI, "YES")
     }
 
@@ -86,10 +96,10 @@ record(ai, "$(P):CURRENT_RBV")
     field(SCAN, "1 second")
     field(DTYP, "stream")
     field(EGU, "A")
-    field(HOPR, "5.0")
-    field(LOPR, "0.01")    
     field(PREC, "2")
-    field(INP,  "@ttiEX355P.proto getActualCurrent $(PORT)")
+    field(HOPR, "$(MAXI=0)")
+    field(LOPR, "0")
+    field(INP, "@ttiEX355P.proto getActualCurrent $(PORT)")
     field(PINI, "YES")
     }
 
@@ -101,7 +111,7 @@ record(bo, "$(P):OUTPUT")
     field(DESC, "Output control")
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@ttiEX355P.proto setOutput $(PORT)")
+    field(OUT, "@ttiEX355P.proto setOutput $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On")
     }
@@ -111,7 +121,7 @@ record(bi, "$(P):OUTPUT_RBV")
     {
     field(SCAN, "1 second")
     field(DTYP, "stream")
-    field(INP,  "@ttiEX355P.proto getOutput $(PORT)")
+    field(INP, "@ttiEX355P.proto getOutput $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On")
     }
@@ -122,7 +132,7 @@ record(bi, "$(P):OUTPUT_MODE")
     {
     field(SCAN, "1 second")
     field(DTYP, "stream")
-    field(INP,  "@ttiEX355P.proto getMode $(PORT)")
+    field(INP, "@ttiEX355P.proto getMode $(PORT)")
     field(ZNAM, "Constant Voltage")
     field(ONAM, "Constant Current")
     }
@@ -133,7 +143,7 @@ record(mbbi, "$(P):ERROR")
     {
     field(DESC, "Error status")
     field(DTYP, "stream")
-    field(INP,  "@ttiEX355P.proto getError $(PORT)")
+    field(INP, "@ttiEX355P.proto getError $(PORT)")
     field(SCAN, "1 second")
     field(ZRST, "No error")
     field(ONST, "Cmd not recognised")
@@ -149,7 +159,7 @@ record(stringin, "$(P):IDENT")
     {
     field(DESC, "Identity")
     field(DTYP, "stream")
-    field(INP,  "@ttiEX355P.proto getIDN $(PORT)")
+    field(INP, "@ttiEX355P.proto getIDN $(PORT)")
     field(SCAN, "10 second")
     }
 
@@ -160,7 +170,7 @@ record(bo, "$(P):RESET")
     {
     field(DESC, "Reset supply")
     field(DTYP, "stream")
-    field(OUT,  "@ttiEX355P.proto reset $(PORT)")
+    field(OUT, "@ttiEX355P.proto reset $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On")
     }
